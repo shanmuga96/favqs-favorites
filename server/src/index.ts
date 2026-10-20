@@ -1,10 +1,28 @@
 import express, { NextFunction, Request, Response } from "express";
+import cors from "cors";
 import { config } from "./config/env";
 import quoteRoutes from "./routes/quoteRoutes";
 import favoriteRoutes from "./routes/favoritesRoutes";
 import { UpstreamApiError } from "./clients/favqsClient";
 
 const app = express();
+
+app.use(
+    cors( {
+        origin: ( origin, callback ) =>
+        {
+            // Allow requests with no origin (mobile apps, Postman, curl, server-to-server)
+            if ( !origin || config.allowedOrigins.includes( origin ) )
+            {
+                callback( null, true );
+            } else
+            {
+                callback( new Error( `${ origin } is not allowed by CORS` ) );
+            }
+        },
+        credentials: true,
+    } ),
+);
 
 app.use( express.json() );
 
