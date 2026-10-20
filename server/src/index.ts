@@ -1,6 +1,7 @@
 import express, { NextFunction, Request, Response } from "express";
 import { config } from "./config/env";
 import quoteRoutes from "./routes/quoteRoutes";
+import favoriteRoutes from "./routes/favoritesRoutes";
 import { UpstreamApiError } from "./clients/favqsClient";
 
 const app = express();
@@ -13,7 +14,9 @@ app.get( "/health", ( req: Request, res: Response ) =>
     res.json( { status: "ok", timeStamp: new Date().toISOString() } );
 } );
 
+// Mount all domain routes under /api
 app.use( "/api", quoteRoutes );
+app.use( "/api", favoriteRoutes );
 
 // Centralized error handler
 app.use( ( err: Error, req: Request, res: Response, next: NextFunction ) =>
