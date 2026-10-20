@@ -107,7 +107,7 @@ export const quotesApi = {
      */
     async removeFavorite ( id: number ): Promise<{ message: string; }>
     {
-        return request<{ message: string; }>( '/favorites/${id}', {
+        return request<{ message: string; }>( `/favorites/${ id }`, {
             method: 'DELETE'
         } );
     }
