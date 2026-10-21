@@ -47,8 +47,14 @@ export default function HomeScreen() {
         author: quote.author,
       });
       setFeedbackMessage("Added to your favorites !");
-    } catch (err: any) {
-      setErrorMessage(err.message || "Failed to add it to favorites");
+    } catch ( err: any )
+    {
+      // 409 Conflict: Quote was already favorited 
+      if (err.status === 409) {
+        setFeedbackMessage("Already favorited!");
+      } else {
+        setErrorMessage(err.message || "Failed to add it to favorites");
+      }
     } finally {
       setSaving(false);
     }
@@ -187,7 +193,7 @@ const styles = StyleSheet.create({
   },
   primaryButton: {
     flex: 1,
-    backgroundColor: "#e60000", // Clean red accent
+    backgroundColor: "#e60000",
     paddingVertical: 12,
     borderRadius: 8,
     alignItems: "center",
