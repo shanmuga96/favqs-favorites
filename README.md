@@ -73,8 +73,8 @@ cp .env.example .env
 ```
 PORT=3000
 FAVQS_API_KEY=your_actual_favqs_api_key_here
-FAVQS_BASE_URL=[https://favqs.com/api](https://favqs.com/api)
-ALLOWED_ORIGINS=http://localhost:8081,http://localhost:3000,[http://127.0.0.1:8081](http://127.0.0.1:8081)
+FAVQS_BASE_URL=https://favqs.com/api
+ALLOWED_ORIGINS=http://localhost:8081,http://localhost:3000,http://127.0.0.1:8081
 ```
 
 
@@ -159,7 +159,7 @@ It includes pre-configured requests covering:
     - Implemented a JSON parser error boundary catching malformed request bodies with a `400` status before hitting business logic.
     - Added dynamic, trimmed CORS whitelist parsing with zero-config local defaults.
 
-- **Thin Mobile Client:** Built a tabbed React Native interface with **Daily Quote** (fetch quote, refetch, like) and **My Favorites** (listing via `FlatList`, pull-to-refresh, empty states, and unlike action with optimistic removal).
+- **Thin Mobile Client:** Built a tabbed React Native interface with **Daily Quote** (fetch quote, refetch, like) and **My Favorites** (listing via `FlatList`, pull-to-refresh, empty states, and unlike action with removal after server confirmation).
 
 ### 2. Why I implemented or skipped certain things ?
 
