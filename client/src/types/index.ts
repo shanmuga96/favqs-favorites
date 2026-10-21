@@ -17,7 +17,7 @@ export interface FavoriteQuote extends Quote
 }
 
 /**
- * Payload required to save a quote as Favorite (POST /api/favoritea)
+ * Payload required to save a quote as Favorite (POST /api/favorites)
  */
 
 export interface SaveFavoriteQuotePayload

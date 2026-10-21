@@ -18,17 +18,24 @@ export class FavoritesRepository
     private favorites: Map<number, FavoriteQuote> = new Map();
 
     /**
-     *
+     * Saves a new Favorite quote
      * @param quote Quote object containing id, body and author
      * @returns the saved FavoriteQuote record
+     * @throws Error if quote ID alreay exists in storage
      */
 
     public save ( quote: Omit<FavoriteQuote, "createdAt"> ): FavoriteQuote
     {
-        const existing = this.favorites.get( quote.id );
+        if ( this.favorites.has( quote.id ) )
+        {
+            const err = new Error( `Quote ${ quote.id } is already in favorites.` );
+            err.name = "DuplicateFavoriteError";
+            throw err;
+        }
+
         const favoriteRecord: FavoriteQuote = {
             ...quote,
-            createdAt: existing ? existing.createdAt : new Date().toISOString(),
+            createdAt: new Date().toISOString(),
         };
 
         this.favorites.set( quote.id, favoriteRecord );
