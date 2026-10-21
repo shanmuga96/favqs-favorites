@@ -53,7 +53,7 @@ export default function FavoritesScreen() {
     try {
       setDeletingId(id);
       await quotesApi.removeFavorite(id);
-      // Optimistic update: filter out the removed quote immediately
+      // Update local state after successful server confirmation
       setFavorites((prev) => prev.filter((item) => item.id !== id));
     } catch (err: any) {
       const msg = err.message || "Failed to remove favorite quote.";

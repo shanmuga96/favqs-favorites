@@ -49,21 +49,6 @@
     {
       "name": "Get quoteOfTheDay",
       "request": {
-        "auth": {
-          "type": "apikey",
-          "apikey": [
-            {
-              "key": "key",
-              "value": "Token",
-              "type": "string"
-            },
-            {
-              "key": "value",
-              "value": "236e16764739e34a27b47c41a6137feb",
-              "type": "string"
-            }
-          ]
-        },
         "method": "GET",
         "header": [],
         "url": {

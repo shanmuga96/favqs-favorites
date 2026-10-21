@@ -28,7 +28,7 @@ favqs-favorites/
 │   │   ├── config/             # Environment validation & CORS origin sanitation
 │   │   ├── controllers/        # Request validation, status handling & DTO mapping
 │   │   ├── routes/             # Express API routers (/api/quote, /api/favorites)
-│   │   ├── services/           # Domain logic & quote response sanitization
+│   │   ├── service/           # Domain logic & quote response sanitization
 │   │   ├── storage/            # In-memory favorites repository with Map (O(1))
 │   │   └── index.ts            # App initialization, body parser & error boundary
 │   ├── vitest.config.ts        # Vitest test runner configuration
@@ -52,7 +52,7 @@ favqs-favorites/
 
 - Node.js v18+ (tested on Node 24.11.1)
 
-- npm v9+ (tested on Node 11.6.2)
+- npm v9+ (tested on npm 11.6.2)
 
 - A free FavQs API key obtained from [favqs.com](https://favqs.com/)
 
@@ -169,7 +169,7 @@ It includes pre-configured requests covering:
 
 - **Why `409 Conflict` over Silent Upsert:** Attempting to favorite an already-saved item represents an actionable user event. Returning `409` allows the client UI to render an informed warning banner ("Already favorited!") instead of giving false confirmation of a newly inserted record.
 
-- **Fail-Open Startup on Missing `FAVQS_API_KEY`:** The server starts with a prominent console warning if the key is missing rather than halting the process (`process.exit(1)`). This allows container health probes (`GET /health`) and public quote retrieval to function unhindered (FavQs does not require a token for public `/qotd`), while isolating authorization errors to authenticated endpoints.
+- **Fail-Open Startup on Missing `FAVQS_API_KEY`:** The server starts with a prominent console warning if the key is missing rather than halting the process (`process.exit(1)`). This allows container health probes (`GET /health`) and favorites endpoints to work immediately, and FavQs `/qotd` functions publicly without an app token.
 
 - **Skipped User Auth / Session Management:** Omitted authentication as it was explicitly specified as out of scope.
 
@@ -180,9 +180,9 @@ It includes pre-configured requests covering:
 
 - **Functional Thin UI vs. Custom Design System:** Focused on clean state transitions (loading spinners, error banners, optimistic UI updates, empty states) over complex styling, keeping scope aligned with the requirements.
 
-- **Scoped Unit Tests vs. Full Integration Suite:** Focused automated testing on the core domain storage invariants and response mapping using Vitest rather than mocking full HTTP integration chains with Supertest, ensuring verification of critical business logic under time constraints.
+- **Scoped Unit Tests vs. Full Integration Suite:** Focused testing on the core domain storage invariants using Vitest rather than mocking full HTTP integration chains with Supertest, ensuring verification of critical business logic under time constraints.
 
-### 4. If I had more time, what would I improve or add? ?
+### 4. If I had more time, what would I improve or add ?
 
 - **Structured Application Logging & Observability:** Add a production-grade structured logger (such as Winston or Pino) including correlated Request IDs, log levels (`debug`, `info`, `warn`, `error`), and HTTP request/response latency logging via middleware.
 
