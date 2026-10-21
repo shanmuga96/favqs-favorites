@@ -32,31 +32,32 @@ export const favoritesController = {
             const { id, body, author } = req.body;
 
             // validating incoming inputs
-            if ( id === undefined || id === null || typeof id !== "number" )
+            if (
+                id === undefined ||
+                id === null ||
+                typeof id !== "number" ||
+                !Number.isInteger( id )
+            )
             {
                 res
                     .status( 400 )
-                    .json( { error: 'Field "id" is required and must be a number' } );
+                    .json( { error: 'Field "id" is required and must be an integer' } );
                 return;
             }
 
             if ( !body || typeof body !== "string" || body.trim().length === 0 )
             {
-                res
-                    .status( 400 )
-                    .json( {
-                        error: 'Field "body" is required and must be a non-empty string.',
-                    } );
+                res.status( 400 ).json( {
+                    error: 'Field "body" is required and must be a non-empty string.',
+                } );
                 return;
             }
 
             if ( !author || typeof author !== "string" || author.trim().length === 0 )
             {
-                res
-                    .status( 400 )
-                    .json( {
-                        error: 'Field "author" is required and must be a non-empty string.',
-                    } );
+                res.status( 400 ).json( {
+                    error: 'Field "author" is required and must be a non-empty string.',
+                } );
                 return;
             }
 
@@ -66,29 +67,37 @@ export const favoritesController = {
                 author: author.trim(),
             } );
             res.status( 201 ).json( savedItem );
-        } catch ( error )
+        } catch ( error: any )
         {
+            if ( error.name === "DuplicateFavoriteError" )
+            {
+                res.status( 409 ).json( { error: "Quote is already in favorites." } );
+                return;
+            }
             next( error );
         }
     },
 
     /**
      * Removes a quote from the Favorites list by ID.
-     * @param req 
-     * @param res 
-     * @returns 
+     * @param req
+     * @param res
+     * @returns
      */
     removeFavorite ( req: Request<{ id: string; }>, res: Response ): void
     {
+        const rawQuoteId = req.params.id;
 
-        const id = parseInt( req.params.id, 10 );
-        if ( isNaN( id ) )
+        // Strict integer matching to disallow trailing junk like 1abc
+        if ( !/^\d+$/.test( rawQuoteId ) )
         {
             res
                 .status( 400 )
-                .json( { error: "Invalid quote ID parameter. Must be an integer" } );
+                .json( { error: "Invalid quote ID parameter. Must be an integer." } );
             return;
         }
+
+        const id = parseInt( rawQuoteId, 10 );
 
         const deleted = favoritesRepository.delete( id );
         if ( !deleted )
@@ -96,10 +105,8 @@ export const favoritesController = {
             res.status( 404 ).json( { error: `Favorite quote with ID ${ id } not found` } );
             return;
         }
-        res
-            .status( 200 )
-            .json( {
-                message: `Favorite quote qith ID ${ id } successfully removed from favorites.`,
-            } );
+        res.status( 200 ).json( {
+            message: `Favorite quote with ID ${ id } successfully removed from favorites.`,
+        } );
     },
 };

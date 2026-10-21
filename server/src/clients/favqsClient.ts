@@ -72,12 +72,17 @@ export const favqsClient = {
         let response: Response;
         try
         {
-            response = await fetch( `${ config.favqaBaseUrl }/qotd`, {
+            response = await fetch( `${ config.favqsBaseUrl }/qotd`, {
                 method: 'GET',
                 headers,
+                signal: AbortSignal.timeout( 5000 ), // 5-second timeout to prevent hung sockets
             } );
-        } catch ( networkError )
+        } catch ( networkError: any )
         {
+            if ( networkError.name === 'TimeoutError' )
+            {
+                throw new UpstreamApiError( 'FavQs upstream service timed out after 5000ms', 504 );
+            }
             throw new UpstreamApiError(
                 'Unable to reach upstream FavQs service (network failure)',
                 502

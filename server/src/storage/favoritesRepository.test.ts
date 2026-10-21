@@ -26,25 +26,16 @@ describe( 'FavoritesRepository Tests', () =>
         expect( new Date( saved.createdAt ).getTime() ).not.toBeNaN();
     } );
 
-    it( 'should prevent duplicate records and update quote details when saving the same ID', () =>
+    it( 'should throw DuplicateFavoriteError when attempting to save the same ID twice', () =>
     {
-        repository.save( {
-            id: 42,
-            body: 'Original quote',
-            author: 'Author A',
-        } );
+        repository.save( { id: 42, body: 'Death leaves a heartache no one can heal, love leaves a memory no one can steal.', author: 'Unknown' } );
 
-        const updated = repository.save( {
-            id: 42,
-            body: 'Updated quote text',
-            author: 'Author A',
-        } );
+        expect( () =>
+        {
+            repository.save( { id: 42, body: 'Death leaves a heartache ', author: 'Unknown' } );
+        } ).toThrow( 'already in favorites' );
 
-        const allFavorites = repository.findAll();
-
-        expect( allFavorites ).toHaveLength( 1 );
-        expect( updated.body ).toBe( 'Updated quote text' );
-        expect( allFavorites[ 0 ].body ).toBe( 'Updated quote text' );
+        expect( repository.findAll() ).toHaveLength( 1 );
     } );
 
     it( 'should return all favorites ordered with newest first', () =>
