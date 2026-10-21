@@ -1,0 +1,244 @@
+{
+  "info": {
+    "_postman_id": "21d6d26c-c0b2-4c30-a88a-784e39f9ee66",
+    "name": "Favqs Server",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "50478264",
+    "_collection_link": "https://go.postman.co/collection/50478264-21d6d26c-c0b2-4c30-a88a-784e39f9ee66?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/health",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "health"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "FqvQs Quote of the Day",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://favqs.com/api/qotd",
+          "protocol": "https",
+          "host": [
+            "favqs",
+            "com"
+          ],
+          "path": [
+            "api",
+            "qotd"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get quoteOfTheDay",
+      "request": {
+        "auth": {
+          "type": "apikey",
+          "apikey": [
+            {
+              "key": "key",
+              "value": "Token",
+              "type": "string"
+            },
+            {
+              "key": "value",
+              "value": "236e16764739e34a27b47c41a6137feb",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/quote",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "quote"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get favorites",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/favorites",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "favorites"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Add favorite",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"id\":204,\r\n    \"body\":\"Things may come to those who wait, but only the things left by those who hustle.\",\r\n    \"author\":\"Abraham Lincoln\"\r\n    \r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/favorites",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "favorites"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Add favorites validation error",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"id\":102,\r\n    \"author\":\"Winston Churchill\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/favorites",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "favorites"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Add favorites duplication error",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"id\":204,\r\n    \"author\":\"Winston Churchill\",\r\n    \"body\":\"Things may come to those who wait, but only the things left by those who hustle.\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/favorites",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "favorites"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Remove favorite",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "",
+            "value": ""
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/api/favorites/101",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "favorites",
+            "101"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Remove favorite Error",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "",
+            "value": ""
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/api/favorites/101",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "favorites",
+            "101"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
